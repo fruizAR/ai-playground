@@ -1,0 +1,13 @@
+POST http://localhost:11434/api/chat
+Content-Type: application/json
+
+{
+  "model": "llama3",
+  "messages": [
+    {
+      "role": "user",
+      "content": "perfecto como hago para "
+    }
+  ],
+  "stream": false
+}

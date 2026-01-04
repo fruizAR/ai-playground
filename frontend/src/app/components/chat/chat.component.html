@@ -1,0 +1,182 @@
+<div class="container-fluid vh-100 d-flex flex-column p-0">
+  <!-- Header -->
+  <div class="bg-gradient bg-primary text-white shadow-sm">
+    <div class="container-fluid py-3 px-3 px-md-4">
+      <div
+        class="d-flex justify-content-between align-items-center flex-wrap gap-2"
+      >
+        <h1 class="h4 mb-0">🤖 OpenAI Chat Assistant</h1>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span
+            *ngIf="backendStatus"
+            class="badge"
+            [class.bg-success]="backendStatus.openaiconnected"
+            [class.bg-danger]="!backendStatus.openaiconnected"
+          >
+            {{
+              backendStatus.openaiconnected ? "🟢 Conectado" : "🔴 Desconectado"
+            }}
+          </span>
+          <span *ngIf="statusError" class="badge bg-warning text-dark">
+            ⚠️ {{ statusError }}
+          </span>
+          <button
+            class="btn btn-sm btn-light"
+            (click)="checkBackendStatus()"
+            title="Actualizar estado"
+          >
+            🔄
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Panel -->
+  <div class="bg-light border-bottom">
+    <div class="container-fluid py-2 px-3 px-md-4">
+      <div class="row g-2 align-items-center">
+        <div class="col-12 col-md-auto">
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="streamingSwitch"
+              [(ngModel)]="useStreaming"
+              (change)="toggleStreaming()"
+            />
+            <label class="form-check-label" for="streamingSwitch">
+              Streaming en tiempo real
+            </label>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <label class="form-label mb-1 small">
+            Temperature: <strong>{{ temperature }}</strong>
+          </label>
+          <input
+            type="range"
+            class="form-range"
+            min="0"
+            max="2"
+            step="0.1"
+            [(ngModel)]="temperature"
+          />
+        </div>
+
+        <div class="col-12 col-md-3">
+          <label class="form-label mb-1 small">
+            Max Tokens: <strong>{{ maxTokens }}</strong>
+          </label>
+          <input
+            type="range"
+            class="form-range"
+            min="100"
+            max="2000"
+            step="100"
+            [(ngModel)]="maxTokens"
+          />
+        </div>
+
+        <div class="col-12 col-md-auto ms-auto">
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="clearMessages()"
+            *ngIf="messages.length > 0"
+          >
+            🗑️ Limpiar chat
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages Area -->
+  <div class="flex-grow-1 overflow-auto bg-body-secondary" #messagesContainer>
+    <div class="container-fluid py-3 px-3 px-md-4">
+      <div *ngIf="messages.length === 0" class="text-center text-muted py-5">
+        <h5>👋 ¡Hola! Envía un mensaje para comenzar</h5>
+      </div>
+
+      <div *ngFor="let message of messages" class="mb-3">
+        <div
+          class="d-flex"
+          [class.justify-content-end]="message.role === 'user'"
+          [class.justify-content-start]="message.role === 'assistant'"
+        >
+          <div
+            class="card shadow-sm"
+            [class.bg-primary]="message.role === 'user'"
+            [class.text-white]="message.role === 'user'"
+            [class.bg-white]="message.role === 'assistant'"
+            style="max-width: 75%"
+          >
+            <div class="card-body">
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <strong class="small">
+                  {{ message.role === "user" ? "👤 Tú" : "🤖 Asistente" }}
+                </strong>
+                <span
+                  class="small"
+                  [class.text-white-50]="message.role === 'user'"
+                  [class.text-muted]="message.role === 'assistant'"
+                >
+                  {{ message.timestamp | date : "HH:mm:ss" }}
+                </span>
+              </div>
+              <div>
+                <markdown [data]="message.content"></markdown>
+                <span *ngIf="message.isStreaming" class="badge bg-info ms-2">
+                  ●
+                </span>
+              </div>
+              <div
+                *ngIf="message.isTruncated"
+                class="alert alert-warning mt-2 mb-0 small"
+              >
+                {{ getTruncationWarning(message.finishReason) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoading && !useStreaming" class="text-center py-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="text-muted mt-2 mb-0">Generando respuesta...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Area -->
+  <div class="bg-white border-top shadow-sm">
+    <div class="container-fluid py-3 px-3 px-md-4">
+      <div class="row g-2">
+        <div class="col">
+          <textarea
+            [(ngModel)]="userInput"
+            (keypress)="onKeyPress($event)"
+            placeholder="Escribe tu mensaje aquí... (Enter para enviar, Shift+Enter para nueva línea)"
+            rows="3"
+            [disabled]="isLoading"
+            class="form-control"
+          ></textarea>
+        </div>
+        <div class="col-auto d-flex align-items-end">
+          <button
+            (click)="sendMessage()"
+            [disabled]="!userInput.trim() || isLoading"
+            class="btn btn-primary btn-lg"
+          >
+            {{ isLoading ? "⏳" : "📤" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

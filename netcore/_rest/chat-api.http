@@ -1,0 +1,136 @@
+### Variables
+@baseUrl = http://localhost:8000/api/chat
+@contentType = application/json
+
+### ===========================================
+### ENDPOINTS DE PRUEBA - .NET OpenAI API
+### ===========================================
+
+### 1. Status - Verificar estado del servicio
+GET {{baseUrl}}/status
+Accept: application/json
+
+### ===========================================
+### ENDPOINT /ask - PRUEBAS
+### ===========================================
+
+### 2. Ask - Solicitud simple SIN streaming
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "¿Qué es ASP.NET Core en una línea?",
+  "temperature": 0.7,
+  "maxTokens": 100,
+  "stream": false
+}
+
+### 3. Ask - Solicitud CON streaming (Server-Sent Events)
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "Explica qué es ASP.NET Core y sus ventajas principales",
+  "temperature": 0.7,
+  "maxTokens": 500,
+  "stream": true
+}
+
+### 4. Ask - Pregunta técnica sin streaming
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "¿Cuáles son las diferencias entre .NET Framework y .NET Core?",
+  "temperature": 0.5,
+  "maxTokens": 300,
+  "stream": false
+}
+
+### 5. Ask - Solicitud creativa con temperatura alta
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "Escribe un poema corto sobre la programación en C#",
+  "temperature": 1.2,
+  "maxTokens": 200,
+  "stream": false
+}
+
+### 6. Ask - Solicitud técnica con streaming
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "Explica paso a paso cómo crear una API REST con ASP.NET Core",
+  "temperature": 0.6,
+  "maxTokens": 800,
+  "stream": true
+}
+
+### 7. Ask - Generación de código
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "Genera un ejemplo de endpoint ASP.NET Core que devuelva un JSON con usuario y timestamp",
+  "temperature": 0.3,
+  "maxTokens": 400,
+  "stream": false
+}
+
+### 8. Ask - Pregunta en español
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "¿Qué es un modelo de lenguaje y cómo funciona?",
+  "temperature": 0.7,
+  "maxTokens": 500,
+  "stream": false
+}
+
+### 9. Ask - Streaming largo
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "Escribe una guía completa sobre cómo integrar Angular con una API de ASP.NET Core",
+  "temperature": 0.7,
+  "maxTokens": 1500,
+  "stream": true
+}
+
+### ===========================================
+### PRUEBAS DE VALIDACIÓN
+### ===========================================
+
+### 10. Ask - Prompt vacío (debería fallar)
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "",
+  "stream": false
+}
+
+### 11. Ask - Temperatura fuera de rango (debería fallar)
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "Test",
+  "temperature": 3.0,
+  "stream": false
+}
+
+### 12. Ask - Max tokens negativo (debería fallar)
+POST {{baseUrl}}/ask
+Content-Type: {{contentType}}
+
+{
+  "prompt": "Test",
+  "maxTokens": -100,
+  "stream": false
+}

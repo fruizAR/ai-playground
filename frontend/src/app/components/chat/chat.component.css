@@ -1,0 +1,173 @@
+/* Estilos específicos para Markdown dentro de los mensajes */
+
+/* Ajustar el comportamiento del markdown dentro de las cards */
+::ng-deep .card-body markdown {
+  display: block;
+  line-height: 1.6;
+}
+
+::ng-deep .card-body markdown p {
+  margin: 0.5rem 0;
+}
+
+::ng-deep .card-body markdown p:first-child {
+  margin-top: 0;
+}
+
+::ng-deep .card-body markdown p:last-child {
+  margin-bottom: 0;
+}
+
+::ng-deep .card-body markdown h1,
+::ng-deep .card-body markdown h2,
+::ng-deep .card-body markdown h3,
+::ng-deep .card-body markdown h4,
+::ng-deep .card-body markdown h5,
+::ng-deep .card-body markdown h6 {
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 600;
+}
+
+::ng-deep .card-body markdown h1 {
+  font-size: 1.5rem;
+}
+::ng-deep .card-body markdown h2 {
+  font-size: 1.3rem;
+}
+::ng-deep .card-body markdown h3 {
+  font-size: 1.15rem;
+}
+::ng-deep .card-body markdown h4 {
+  font-size: 1.05rem;
+}
+
+::ng-deep .card-body markdown code {
+  background: rgba(0, 0, 0, 0.08);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+}
+
+/* Código en mensajes del usuario (fondo primary) */
+::ng-deep .bg-primary .card-body markdown code {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+::ng-deep .card-body markdown pre {
+  background: #f4f4f4;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+::ng-deep .bg-primary .card-body markdown pre {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::ng-deep .card-body markdown pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  display: block;
+  line-height: 1.5;
+  color: inherit;
+}
+
+::ng-deep .card-body markdown ul,
+::ng-deep .card-body markdown ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+::ng-deep .card-body markdown li {
+  margin: 0.25rem 0;
+}
+
+::ng-deep .card-body markdown blockquote {
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid #0d6efd;
+  color: #666;
+}
+
+::ng-deep .bg-primary .card-body markdown blockquote {
+  border-left-color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+::ng-deep .card-body markdown a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+::ng-deep .card-body markdown a:hover {
+  text-decoration: underline;
+}
+
+::ng-deep .bg-primary .card-body markdown a {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: underline;
+}
+
+::ng-deep .card-body markdown table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+::ng-deep .card-body markdown table th,
+::ng-deep .card-body markdown table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+::ng-deep .card-body markdown table th {
+  background: #f4f4f4;
+  font-weight: 600;
+}
+
+::ng-deep .bg-primary .card-body markdown table th {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::ng-deep .bg-primary .card-body markdown table th,
+::ng-deep .bg-primary .card-body markdown table td {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+::ng-deep .card-body markdown hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 1rem 0;
+}
+
+::ng-deep .bg-primary .card-body markdown hr {
+  border-top-color: rgba(255, 255, 255, 0.3);
+}
+
+::ng-deep .card-body markdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+/* Animación para el indicador de streaming */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.badge.bg-info {
+  animation: pulse 1s infinite;
+}
+
